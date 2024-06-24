@@ -74,7 +74,7 @@ namespace lbas_cam
 					std::string DeviceSerialNumber;
 					int			CamType;
 				 }CAM_INFO;
-				bool Cam_info(rclcpp::NodeOptions &node, rclcpp::Node &node_);
+				bool Cam_info(const rclcpp::NodeOptions &node_options, std::shared_ptr<rclcpp::Node> &node);
 				bool Cam_info();
 				bool Cam_init();								//打开相机、并初始化相机参数
 				std::string Cam_GetID();

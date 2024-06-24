@@ -121,67 +121,146 @@ namespace lbas_cam
         return cam_info->AcquisitionFrameRate;
     }
 
-	// bool LBASCam::Cam_info(rclcpp::NodeOptions &node, rclcpp::Node &node_)
-	// {
-	// 	//从yaml上面获取值，如果获取不到，就用当前值代替
-	// 	//src/lbascam/config/camera_0.yaml
-	// 	//src/lbascam/config/camera_name.yaml
-	// 	node_.param("Width", 						cam_info->Width, 						3072);
-	// 	node_.param("Height", 						cam_info->Height, 						2048);
-	// 	node_.param("OffsetX", 						cam_info->OffsetX,						0);
-	// 	node_.param("OffsetY", 						cam_info->OffsetY,						0);
-	// 	node_.param("AcquisitionFrameRateEnable", 	cam_info->AcquisitionFrameRateEnable, 	false);
-	// 	node_.param("AcquisitionFrameRate", 		cam_info->AcquisitionFrameRate,			(float)10);
-	// 	node_.param("BurstFrameCount", 				cam_info->BurstFrameCount, 				1); // 一次触发采集的次数
-	// 	node_.param("ExposureAuto", 				cam_info->ExposureAuto, 				0);
-	// 	node_.param("ExposureUpperLimit",			cam_info->ExposureUpperLimit, 			20000);
-	// 	node_.param("ExposureLowerLimit", 			cam_info->ExposureLowerLimit, 			15);
-	// 	node_.param("ExposureTime", 				cam_info->ExposureTime,					(float)50000);
-	// 	node_.param("GammaEnable", 					cam_info->GammaEnable, 					false);
-	// 	node_.param("Gamma", 						cam_info->Gamma, 						(float)0.7);
-	// 	node_.param("GainAuto", 					cam_info->GainAuto, 					2);
-	// 	node_.param("Gain", 						cam_info->Gain, 						(float)0.0);
-	// 	node_.param("DigitalShiftEnable", 			cam_info->DigitalShiftEnable, 			false);
-	// 	node_.param("DigitalShift", 				cam_info->DigitalShift, 				(float)0.5);
-	// 	node_.param("TriggerMode", 					cam_info->TriggerMode, 					0); //1
-	// 	node_.param("TriggerSource", 				cam_info->TriggerSource, 				2);
-	// 	node_.param("TriggerActivation", 			cam_info->TriggerActivation, 			0);
-	// 	node_.param("TriggerDelay", 				cam_info->TriggerDelay, 				(float)0.0);
-	// 	node_.param("TriggerCacheEnable", 			cam_info->TriggerCacheEnable, 			true);
-	// 	node_.param("LineSelector", 				cam_info->LineSelector, 				1);
-	// 	node_.param("LineDebouncerTime", 			cam_info->LineDebouncerTime, 			50);
-	// 	//Image control
-	// 	node_.param("PixelFormat", 					cam_info->PixelFormat, 					(std::string)"BayerRG8");
-	// 	node_.param("RosEncoding", 					cam_info->RosEncoding, 					(std::string)"bayer_rggb8");
-	// 	node_.param("BinningSelector", 				cam_info->BinningSelector, 				0);
-	// 	node_.param("BinningHorizontal", 			cam_info->BinningHorizontal, 			1);
-	// 	node_.param("BinningVertical", 				cam_info->BinningVertical, 				1);
-	// 	//cam color 
-	// 	node_.param("SaturationEnable", 			cam_info->SaturationEnable, 			true);
-	// 	node_.param("Saturation", 					cam_info->Saturation, 					128);
-	// 	node_.param("BalanceWhiteAuto", 			cam_info->BalanceWhiteAuto, 			0);
-	// 	node_.param("BalanceWhiteAuto", 			cam_info->BalanceRatio_R, 				1100);
-	// 	node_.param("BalanceWhiteAuto", 			cam_info->BalanceRatio_G, 				1024);
-	// 	node_.param("BalanceWhiteAuto", 			cam_info->BalanceRatio_B, 				1826);
-	// 	//cam id
-	// 	node_.param("DeviceUserID", 				cam_info->DeviceUserID, 				(std::string)"camera_0");
-	// 	node_.param("DeviceSerialNumber", 			cam_info->DeviceSerialNumber, 			(std::string)"123456789");
-	// 	node_.param("CamType", 						cam_info->CamType, 						0);
-	// 	//Gige Camera
-	// 	return true;
-	// }
+	bool LBASCam::Cam_info(const rclcpp::NodeOptions &node_options, std::shared_ptr<rclcpp::Node> &node)
+	{
+		//从yaml上面获取值，如果获取不到，就用当前值代替
+		//src/lbascam/config/camera_0.yaml
+		//src/lbascam/config/camera_name.yaml
+		// node_->param("Width", 						cam_info->Width, 						3072);
+		// node_->param("Height", 						cam_info->Height, 						2048);
+		// node_->param("OffsetX", 						cam_info->OffsetX,						0);
+		// node_->param("OffsetY", 						cam_info->OffsetY,						0);
+		// node_->param("AcquisitionFrameRateEnable", 	cam_info->AcquisitionFrameRateEnable, 	false);
+		// node_->param("AcquisitionFrameRate", 		cam_info->AcquisitionFrameRate,			(float)10);
+		// node_->param("BurstFrameCount", 				cam_info->BurstFrameCount, 				1); // 一次触发采集的次数
+		// node_->param("ExposureAuto", 				cam_info->ExposureAuto, 				0);
+		// node_->param("ExposureUpperLimit",			cam_info->ExposureUpperLimit, 			20000);
+		// node_->param("ExposureLowerLimit", 			cam_info->ExposureLowerLimit, 			15);
+		// node_->param("ExposureTime", 				cam_info->ExposureTime,					(float)50000);
+		// node_->param("GammaEnable", 					cam_info->GammaEnable, 					false);
+		// node_->param("Gamma", 						cam_info->Gamma, 						(float)0.7);
+		// node_->param("GainAuto", 					cam_info->GainAuto, 					2);
+		// node_->param("Gain", 						cam_info->Gain, 						(float)0.0);
+		// node_->param("DigitalShiftEnable", 			cam_info->DigitalShiftEnable, 			false);
+		// node_->param("DigitalShift", 				cam_info->DigitalShift, 				(float)0.5);
+		// node_->param("TriggerMode", 					cam_info->TriggerMode, 					0); //1
+		// node_->param("TriggerSource", 				cam_info->TriggerSource, 				2);
+		// node_->param("TriggerActivation", 			cam_info->TriggerActivation, 			0);
+		// node_->param("TriggerDelay", 				cam_info->TriggerDelay, 				(float)0.0);
+		// node_->param("TriggerCacheEnable", 			cam_info->TriggerCacheEnable, 			true);
+		// node_->param("LineSelector", 				cam_info->LineSelector, 				1);
+		// node_->param("LineDebouncerTime", 			cam_info->LineDebouncerTime, 			50);
+		// //Image control
+		// node_->param("PixelFormat", 					cam_info->PixelFormat, 					(std::string)"BayerRG8");
+		// node_->param("RosEncoding", 					cam_info->RosEncoding, 					(std::string)"bayer_rggb8");
+		// node_->param("BinningSelector", 				cam_info->BinningSelector, 				0);
+		// node_->param("BinningHorizontal", 			cam_info->BinningHorizontal, 			1);
+		// node_->param("BinningVertical", 				cam_info->BinningVertical, 				1);
+		// //cam color 
+		// node_->param("SaturationEnable", 			cam_info->SaturationEnable, 			true);
+		// node_->param("Saturation", 					cam_info->Saturation, 					128);
+		// node_->param("BalanceWhiteAuto", 			cam_info->BalanceWhiteAuto, 			0);
+		// node_->param("BalanceWhiteAuto", 			cam_info->BalanceRatio_R, 				1100);
+		// node_->param("BalanceWhiteAuto", 			cam_info->BalanceRatio_G, 				1024);
+		// node_->param("BalanceWhiteAuto", 			cam_info->BalanceRatio_B, 				1826);
+		// //cam id
+		// node_->param("DeviceUserID", 				cam_info->DeviceUserID, 				(std::string)"camera_0");
+		// node_->param("DeviceSerialNumber", 			cam_info->DeviceSerialNumber, 			(std::string)"123456789");
+		// node_->param("CamType", 						cam_info->CamType, 						0);
+		//Gige Camera
+
+
+		node->declare_parameter<int>("Width", 3072);
+        node->get_parameter("Width", cam_info->Width);
+        node->declare_parameter<int>("Height", 2048);
+        node->get_parameter("Height", cam_info->Height);
+        node->declare_parameter<int>("OffsetX", 0);
+        node->get_parameter("OffsetX", cam_info->OffsetX);
+        node->declare_parameter<int>("OffsetY", 0);
+        node->get_parameter("OffsetY", cam_info->OffsetY);
+        node->declare_parameter<bool>("AcquisitionFrameRateEnable", false);
+        node->get_parameter("AcquisitionFrameRateEnable", cam_info->AcquisitionFrameRateEnable);
+        node->declare_parameter<float>("AcquisitionFrameRate", 10.00);
+        node->get_parameter("AcquisitionFrameRate", cam_info->AcquisitionFrameRate);
+        node->declare_parameter<int>("BurstFrameCount", 1);
+        node->get_parameter("BurstFrameCount", cam_info->BurstFrameCount);
+        node->declare_parameter<int>("ExposureAuto", 1);
+        node->get_parameter("ExposureAuto", cam_info->ExposureAuto);
+        node->declare_parameter<int>("ExposureUpperLimit", 20000);
+        node->get_parameter("ExposureUpperLimit", cam_info->ExposureUpperLimit);
+        node->declare_parameter<int>("ExposureLowerLimit", 15);
+        node->get_parameter("ExposureLowerLimit", cam_info->ExposureLowerLimit);
+        node->declare_parameter<float>("ExposureTime", 50000);
+        node->get_parameter("ExposureTime", cam_info->ExposureTime);
+        node->declare_parameter<bool>("GammaEnable", false);
+        node->get_parameter("GammaEnable", cam_info->GammaEnable);
+        node->declare_parameter<float>("Gamma", 0.7);
+        node->get_parameter("Gamma", cam_info->Gamma);
+        node->declare_parameter<int>("GainAuto", 2);
+        node->get_parameter("GainAuto", cam_info->GainAuto);
+        node->declare_parameter<float>("Gain", 0.0);
+        node->get_parameter("Gain", cam_info->Gain);
+        node->declare_parameter<bool>("DigitalShiftEnable", false);
+        node->get_parameter("DigitalShiftEnable", cam_info->DigitalShiftEnable);
+        node->declare_parameter<float>("DigitalShift", 0.5);
+        node->get_parameter("DigitalShift", cam_info->DigitalShift);
+        node->declare_parameter<int>("TriggerMode", 0);
+        node->get_parameter("TriggerMode", cam_info->TriggerMode);
+      	node->declare_parameter<int>("TriggerSource", 2);
+        node->get_parameter("TriggerSource", cam_info->TriggerSource);
+        node->declare_parameter<int>("TriggerActivation", 0);
+        node->get_parameter("TriggerActivation", cam_info->TriggerActivation);
+        node->declare_parameter<float>("TriggerDelay", 0);
+        node->get_parameter("TriggerDelay", cam_info->TriggerDelay);
+        node->declare_parameter<bool>("TriggerCacheEnable", true);
+        node->get_parameter("TriggerCacheEnable", cam_info->TriggerCacheEnable);
+        node->declare_parameter<int>("LineSelector", 1);
+        node->get_parameter("LineSelector", cam_info->LineSelector);
+        node->declare_parameter<int>("LineDebouncerTime", 50);
+        node->get_parameter("LineDebouncerTime", cam_info->LineDebouncerTime);
+        node->declare_parameter<std::string>("PixelFormat","BayerRG8");
+        node->get_parameter("PixelFormat", cam_info->PixelFormat);
+        node->declare_parameter<std::string>("RosEncoding","bayer_rggb8");
+        node->get_parameter("RosEncoding", cam_info->RosEncoding);
+        node->declare_parameter<int>("BinningSelector", 0);
+        node->get_parameter("BinningSelector", cam_info->BinningSelector);
+        node->declare_parameter<int>("BinningHorizontal", 1);
+        node->get_parameter("BinningHorizontal", cam_info->BinningHorizontal);
+        node->declare_parameter<int>("BinningVertical", 1);
+        node->get_parameter("BinningVertical", cam_info->BinningVertical);
+        node->declare_parameter<bool>("SaturationEnable", true);
+        node->get_parameter("SaturationEnable", cam_info->SaturationEnable);
+        node->declare_parameter<int>("Saturation", 128);
+        node->get_parameter("Saturation", cam_info->Saturation);
+        node->declare_parameter<int>("BalanceWhiteAuto", 0);
+        node->get_parameter("BalanceWhiteAuto", cam_info->BalanceWhiteAuto);
+        node->declare_parameter<int>("BalanceRatio_R", 1100);
+        node->get_parameter("BalanceRatio_R", cam_info->BalanceRatio_R);
+        node->declare_parameter<int>("BalanceRatio_G", 1024);
+        node->get_parameter("BalanceRatio_G", cam_info->BalanceRatio_G);
+        node->declare_parameter<int>("BalanceRatio_B", 1826);
+        node->get_parameter("BalanceRatio_B", cam_info->BalanceRatio_B);
+        node->declare_parameter<std::string>("DeviceUserID","camera_0");
+        node->get_parameter("DeviceUserID", cam_info->DeviceUserID);
+        node->declare_parameter<std::string>("DeviceSerialNumber","123456789");
+        node->get_parameter("DeviceSerialNumber", cam_info->DeviceSerialNumber);
+        node->declare_parameter<int>("CamType", 0);
+        node->get_parameter("CamType", cam_info->CamType);
+
+		return true;
+	}
 
 	 bool LBASCam::Cam_info()
 	{
 		//从yaml上面获取值，如果获取不到，就用当前值代替
 		//src/lbascam/config/camera_0.yaml
 		//src/lbascam/config/camera_name.yaml
-		cam_info->Width=1920;
-		cam_info->Height=1200;
+		cam_info->Width=720;
+		cam_info->Height=480;
 		cam_info->OffsetX=0;
 		cam_info->OffsetY=0;
 		cam_info->AcquisitionFrameRateEnable=false;
-		cam_info->AcquisitionFrameRate=10;
+		cam_info->AcquisitionFrameRate=41;
 		cam_info->BurstFrameCount=1; // 一次触发采集的次数
 		cam_info->ExposureAuto=0;
 		cam_info->ExposureUpperLimit=20000;
@@ -201,8 +280,8 @@ namespace lbas_cam
 		cam_info->LineSelector=1;
 		cam_info->LineDebouncerTime=50;
 		//Image control
-		cam_info->PixelFormat="Mono8";
-		cam_info->RosEncoding="mono8";
+		cam_info->PixelFormat="BayerRG8";
+		cam_info->RosEncoding="rgb8";
 		cam_info->BinningSelector=0;
 		cam_info->BinningHorizontal=1;
 		cam_info->BinningVertical=1;
@@ -215,8 +294,8 @@ namespace lbas_cam
 		cam_info->BalanceRatio_B=1826;
 		//cam id
 		cam_info->DeviceUserID="camera_0";
-		cam_info->DeviceSerialNumber="DA2942348";
-		cam_info->CamType=0;
+		cam_info->DeviceSerialNumber="DA2942350";
+		cam_info->CamType=1;
 		//Gige Camera
 		return true;
 	}
@@ -247,6 +326,7 @@ namespace lbas_cam
 					} 
 					if (stDeviceList.pDeviceInfo[i]->nTLayerType == MV_GIGE_DEVICE)
 					{
+						std::cout<<"  "<<(char *)pDeviceInfo->SpecialInfo.stGigEInfo.chSerialNumber<<std::endl;
 						if(strcmp(cam_info->DeviceSerialNumber.c_str(), (char *)pDeviceInfo->SpecialInfo.stGigEInfo.chSerialNumber) == 0) 
 						{
 							nIndex = i;
@@ -318,7 +398,7 @@ namespace lbas_cam
 		if (MV_OK != nRet) 
 		{
 			//RCLCPP_ERROR("MV_CC_Set Width fail! nRet [%x]", nRet);
-			std::cout<<"MV_CC_Set Width fail  nRet "<<nRet<<std::endl;
+			std::cout<<"MV_CC_Set Width fail  nRet "<<std::hex<<nRet<<std::endl;
 			return false;
 		}
 		nRet = MV_CC_SetIntValueEx(handle_, "Height", cam_info->Height);

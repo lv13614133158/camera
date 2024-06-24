@@ -17,12 +17,13 @@ int main(int argc, char **argv)
 
 	rclcpp::NodeOptions lbas_camera;
 
-	auto node = std::make_shared<rclcpp::Node>("my_node");
+	auto node = std::make_shared<rclcpp::Node>("my_libas_cam");
 	image_transport::Publisher image_pub;
 
     image_transport::ImageTransport it(node); 
-	//cam_.Cam_info(lbas_camera,node);
 	cam_.Cam_info();
+	cam_.Cam_info(lbas_camera,node);
+	
 	if(!cam_.Cam_init())
 
 	{
@@ -43,7 +44,7 @@ int main(int argc, char **argv)
 			continue;
 		}
 		pub.publish(image_msg, cam_msg); 
-		std::cout<<"publish"<<std::endl;
+		//std::cout<<"publish"<<std::endl;
 		rate.sleep();
 		
 	 

@@ -47,6 +47,10 @@ include_directories(
     ${rclcpp_INCLUDE_DIRS}   
 )
 
+install(DIRECTORY launch/
+  DESTINATION share/${PROJECT_NAME}/launch
+)
+
 
 target_link_libraries(my_libas_cam
  /opt/LBAS/lib/64/libMvCameraControl.so
@@ -56,6 +60,11 @@ target_link_libraries(my_libas_cam
 install(TARGETS
   my_libas_cam
   DESTINATION lib/${PROJECT_NAME}
+)
+
+install(
+  DIRECTORY config
+  DESTINATION share/${PROJECT_NAME}
 )
 
 ament_package()   
